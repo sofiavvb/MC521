@@ -1,0 +1,85 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages for math, code, and formatting
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Code style for C++
+\lstdefinestyle{cpp}{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{orange},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false
+}
+
+% Theorem environments (for invariants, correctness proofs, etc.)
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{invariant}{Invariante}
+\newtheorem{proposition}{Proposição}
+
+\title{Relatório MC521 -  Problemas de Fluxo}
+\author{Sofia Valverde Villas Bôas - 252974}
+
+\begin{document}
+\maketitle
+
+\section*{A - Download Speed}
+
+Nesse problema, temos uma rede consistindo de $n$ computadores e $m$ conexões. 
+Cada conexão tem uma velocidade de download associada. Sendo $1$ o servidor e $n$ o de 
+Kotivalo, queremos saber a velocidade máxima de download que Kotivalo pode obter para baixar um arquivo do
+servidor até o seu computador.
+
+\subsection*{Solução}
+
+A ideia aqui foi modelar o problema como um grafo e, com isso, obter o fluxo máximo deste grafo.
+Isso porque, podemos interpretar a velocidade de download de cada conexão como a capacidade de uma aresta (o que está limitando
+a velocidade que Kotivalo pode obter). Assim, o fluxo máximo do grafo é a velocidade máxima de download que é pedida no output.
+
+Portanto, bastou usar o algoritmo de Edmonds-Karp, inspirado no do material da aula, para computar isto.
+Resumidamente, o algoritmo se baseia em obter caminhos aumentantes através de uma BFS,
+e ir aumentando o fluxo do grafo até que não seja mais possível obter um caminho no grafo residual. 
+
+Por fim, bastou imprimir o fluxo máximo, que é a resposta do problema.
+\section*{C - School Dance}
+
+Temos $n$ meninos e $m$ meninas. Um par de dança é formado por um menino e uma menina.
+Há $k$ pares possíveis dados no enunciado e o problema pede para obtermos o número máximo de pares de dança que podem ser formados,
+e quais são esses pares.
+
+\subsection*{Solução}
+
+Neste problema, da mesma forma que no anterior, podemos o modelar como um grafo e, dada a definição do enunciado,
+sabemos que ele é bipartido. O que queremos obter então nada mais é do que o emparelhamento máximo do grafo, já que
+não podemos ter mais de um par de dança para um mesmo menino ou para uma mesma menina. Ou seja, não podemos ter um 
+mesmo vértice do grafo aparecendo em mais de uma aresta do emparelhamento.
+
+A solução, então, consistiu em criar uma fonte que se liga a cada menino, e um sorvedouro que se liga a cada menina.
+Para garantir que cada menino ou menina só possa ser emparelhado com um outro vértice, basta colocar capacidade 1 em cada
+aresta que liga a fonte a um menino e em cada aresta que liga uma menina ao sorvedouro. Isso porque, mesmo que um menino ou
+menina tenha mais de um par possível, o algoritmo de fluxo máximo só vai conseguir enviar 1 unidade de fluxo através do
+vértice correspondente a esse menino ou menina, já que da aresta que liga a fonte ao menino, ou a menina ao sorvedouro,
+só pode passar fluxo 1 no máximo. Assim, apenas uma das arestas que saem (ou chegam) desse vértice vai conseguir ter
+fluxo igual a 1, e as demais ficam com fluxo 0. As arestas que ligam meninos a meninas também recebem capacidade 1.
+
+Por fim, para obter os pares de dança, foi necessário iterar para cada menino e verificar
+se alguma das arestas que saem do vértice correspondente a ele tem fluxo 1, o que em código
+se traduziu em verificar se $cap[v][i] > 0$ para algum $v$ vizinho de $i$ (sendo $i$ o vértice do menino). Isto é,
+se no grafo residual, o fluxo que podemos desfazer é de $1$. Isso funciona porque, no grafo residual, a aresta reversa
+(de $v$ para $i$) começa com capacidade 0 e é incrementada exatamente pela quantidade de fluxo que foi enviada de
+$i$ para $v$. Logo, $cap[v][i] > 0$ indica que 1 unidade de fluxo foi enviada por essa aresta, ou seja, que o par
+$(i, v)$ faz parte do emparelhamento. Neste caso, imprimimos o par correspondente e passamos para o próximo menino.
+\end{document}

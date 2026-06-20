@@ -1,0 +1,101 @@
+#include <bits/stdc++.h>
+#define int long long
+#define MAXN (int)(1e15)
+#define all(x) x.begin(), x.end()
+#define ii pair<int, int>
+#define iii tuple<int, int, int>
+#define esq(x) (x<<1)
+#define dir(x) ((x<<1)|1)
+#define MOD (int)(1e9 + 9)
+#define BASE 37
+#define MAXL 20
+#define INF (int)(1LL<<30)
+#define PI 3.14159265359
+#define EPS (1e-9)
+#define _ ios_base::sync_with_stdio(0); cin.tie(0);
+
+using namespace std;
+
+// funcao que vai pra lib for sure
+
+void lcis(vector<int>& a, vector<int>& b, vector<int>& dp, vector<int>& ant) {
+    int n = a.size();
+    int m = b.size();
+
+    for (int i = 0; i < n; i++) {
+        int maior = 0;
+        int idx_j = -1;
+
+        for (int j = 0; j < m; j++) {
+            if (a[i] == b[j]) {
+                if (maior + 1 > dp[j]) {
+                    dp[j] = maior + 1;
+                    ant[j] = idx_j;
+                }
+            }
+            // se b[j] for menor, é candidato pra colocar o a[i] dps dele
+            else if (b[j] < a[i]) {
+                if (dp[j] > maior) {
+                    maior = dp[j];
+                    idx_j = j;
+                }
+            }
+        }
+    }
+}
+
+int32_t main()
+{_
+    int n, m;
+    cin >> n;
+    vector<int> a(n);
+    for (int i = 0; i < n; i++){
+        cin >> a[i];
+    }
+
+    cin >> m;
+    vector<int> b(m);
+    for (int i = 0; i < m; i++){
+        cin >> b[i];
+    }
+
+    // tam da lcis terminando em b[j]
+    vector<int> dp(m, 0);
+    // idx do elemento anterior na lcis
+    vector<int> ant(m, -1);
+
+    lcis(a, b, dp, ant);
+
+    int tam_max = 0;
+    int idxfinal = -1;
+    for (int j = 0; j < m; j++) {
+        if (dp[j] > tam_max) {
+            tam_max = dp[j];
+            idxfinal = j;
+        }
+    }
+
+    cout << tam_max << endl;
+
+    // reconstroi
+
+    if (tam_max > 0) {
+        vector<int> ans;
+        int atual = idxfinal;
+        while (atual != -1) {
+            ans.push_back(b[atual]);
+            atual = ant[atual];
+        }
+
+        reverse(all(ans));
+
+        for (int i = 0; i < tam_max; i++) {
+            if (i < tam_max - 1) {
+                cout << ans[i] << " ";
+            }
+        }
+        cout << ans[tam_max - 1] << endl;
+    }
+
+    return 0;
+}

@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages for math, code, and formatting
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Code style for C++
+\lstdefinestyle{cpp}{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{orange},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false
+}
+
+% Theorem environments (for invariants, correctness proofs, etc.)
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{invariant}{Invariante}
+\newtheorem{proposition}{Proposição}
+
+\title{Relatório MC521 - Contest 1}
+\author{Sofia Valverde Villas Bôas - 252974}
+
+\begin{document}
+\maketitle
+
+\section*{B - P02}
+
+Nesse problema, queremos saber o número máximo de moedas
+que é possível conseguir dadas as regras do enunciado relacionada
+ao aperto dos botões. 
+
+\subsection*{Solução}
+
+Para a solução, testamos as três possibilidades: apertar os dois botões,
+apertar o primeiro botão duas vezes ou apertar o segundo botão duas vezes.
+Para cada resultado, calculamos o número de moedas, considerando
+que se apertamos o mesmo botão duas vezes, o número de moedas que
+ele dá é o número de moedas do botão na primeira vez e o número de moedas
+do botão - 1.
+
+Após isso, basta pegar o máximo entre os três resultados e imprimir o resultado.
+
+\section*{H - P08}
+
+Para esse problema, queremos saber a quantidade de pontos feitos por 
+Antonia e David ao final do jogo. A cada rodada, ambos cada um rola um dado
+e o jogador que tiver a menor pontuação perde pontos equivalentes à pontuação do dado do outro jogador.
+Se ambos os jogadores tiverem a mesma pontuação, ninguém perde pontos.
+
+\subsection*{Solução}
+
+Para a solução, lemos o número de rodadas e, para cada rodada, lemos a pontuação de Antonia e David nos dados.
+
+Em seguida, comparamos as pontuações. Se a pontuação de Antonia for maior que a de David, David perde pontos equivalentes à pontuação do dado de Antonia.
+Se a pontuação de David for maior que a de Antonia, Antonia perde pontos equivalentes à pontuação do dado de David. 
+Caso contrário, ninguém perde pontos.
+
+Por fim, imprimimos a pontuação final de Antonia e David, expressas nas variáveis \texttt{antonia} e \texttt{david}, respectivamente.
+\end{document}

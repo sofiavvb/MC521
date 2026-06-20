@@ -1,0 +1,72 @@
+\documentclass[12pt,a4paper]{article}
+
+% Packages for math, code, and formatting
+\usepackage{amsmath, amssymb, amsthm}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage{listings}
+\usepackage{xcolor}
+
+% Code style for C++
+\lstdefinestyle{cpp}{
+  language=C++,
+  basicstyle=\ttfamily\small,
+  keywordstyle=\color{blue},
+  commentstyle=\color{green!50!black},
+  stringstyle=\color{orange},
+  numbers=left,
+  numberstyle=\tiny,
+  stepnumber=1,
+  numbersep=5pt,
+  frame=single,
+  breaklines=true,
+  tabsize=2,
+  showstringspaces=false
+}
+
+% Theorem environments (for invariants, correctness proofs, etc.)
+\newtheorem{theorem}{Teorema}
+\newtheorem{lemma}{Lema}
+\newtheorem{invariant}{Invariante}
+\newtheorem{proposition}{Proposição}
+
+\title{Relatório MC521 - Contest 3}
+\author{Sofia Valverde Villas Bôas - 252974}
+
+\begin{document}
+\maketitle
+
+\section*{G - Vapor Pressure}
+
+Nesse problema, temos $A$ bolas e $B$ balões. Takahashi
+remove repetidamente uma bola até que o número de
+bolas seja no máximo $C$ vezes o número de balões. Queremos obter 
+número de bolas ao final do processo, dividido pelo número de balões.
+
+\subsection*{Solução}
+
+Para a solução, basta remover bolas enquanto o número de bolas for maior
+do que $C$ vezes o número de balões. Após isso, basta dividir o número de bolas
+pelo número de balões e imprimir o resultado.
+
+Depois, percebi que nem precisava ter feito o loop, já que, 
+se $A$ for maior do que $C$ vezes $B$, o resultado é simplesmente $C$.
+Caso contrário, o resultado seria simplesmente $A$ dividido por $B$.
+
+Como o código já estava feito, deixei o loop mesmo.
+
+\section*{E - Precondition }
+
+Dadas duas strings $S$ e $T$, queremos determinar se $S$
+satisfaz a condição: para cada letra maiúscula em $S$
+que não seja a primeira, a letra imediatamente anterior a ela deve estar contida em $T$.
+
+\subsection*{Solução}
+
+A solução consiste em, inicialmente, colocar as letras de $T$ em um hash e,
+depois, iterar sobre as letras de $S$ (exceto a primeira) e verificar se cada letra maiúscula
+tem a letra anterior presente no hash.
+Se encontrarmos uma letra maiúscula que não satisfaz a condição, podemos concluir que $S$ não satisfaz a condição
+e imprimir "No". Caso contrário, se todas as letras maiúsculas satisfizerem a condição, imprimimos "Yes".
+
+\end{document}
